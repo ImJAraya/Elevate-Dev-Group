@@ -1,0 +1,76 @@
+---
+import { siteConfig } from '../content/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = siteConfig.title, description = siteConfig.description } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={siteConfig.brandName} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+  </head>
+  <body>
+    <div class="bg-orb bg-orb-a" aria-hidden="true"></div>
+    <div class="bg-orb bg-orb-b" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a href="#home" class="brand">{siteConfig.brandName}</a>
+      <nav aria-label="Navegacion principal">
+        <ul>
+          {siteConfig.nav.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <a class="mini-cta" href="#contacto">Iniciar proyecto</a>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <p class="brand">{siteConfig.brandName}</p>
+        <p>Landing pages, web apps y soluciones digitales enfocadas en crecimiento.</p>
+      </div>
+      <div>
+        <p>Servicios</p>
+        <ul>
+          <li>Landing Pages</li>
+          <li>Web Apps</li>
+          <li>Desktop Apps</li>
+        </ul>
+      </div>
+      <div>
+        <p>Contacto</p>
+        <ul>
+          <li><a href="mailto:contacto@elevatedevgroup.com">contacto@elevatedevgroup.com</a></li>
+          <li><a href="#contacto">Solicitar propuesta</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

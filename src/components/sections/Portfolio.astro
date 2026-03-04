@@ -1,0 +1,26 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import { siteConfig } from '../../content/site';
+
+const { portfolio } = siteConfig;
+---
+
+<section id="portfolio" class="section">
+  <SectionHeader
+    eyebrow="Portfolio"
+    title="Casos demo para visualizar el potencial"
+    description="Showcase referencial de proyectos tipo que podemos construir para acelerar tus objetivos comerciales y operativos."
+  />
+
+  <div class="card-grid">
+    {portfolio.map((item, index) => (
+      <article class={`portfolio-card reveal delay-${index % 3}`}>
+        <p class="card-tag">{item.tag}</p>
+        <h3>{item.name}</h3>
+        <p><strong>Objetivo:</strong> {item.objective}</p>
+        <p><strong>Solución:</strong> {item.solution}</p>
+        <p><strong>Resultado:</strong> {item.result}</p>
+      </article>
+    ))}
+  </div>
+</section>

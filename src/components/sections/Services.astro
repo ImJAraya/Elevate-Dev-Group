@@ -1,0 +1,25 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import { siteConfig } from '../../content/site';
+
+const { services } = siteConfig;
+---
+
+<section id="servicios" class="section">
+  <SectionHeader
+    eyebrow="Servicios"
+    title="Soluciones para crecer tu presencia digital"
+    description="Desarrollamos experiencias orientadas a negocio con foco principal en productos web de alto impacto."
+  />
+
+  <div class="card-grid">
+    {services.map((service, index) => (
+      <article class={`service-card reveal delay-${index % 3}`}>
+        <h3>{service.title}</h3>
+        <p><strong>Problema:</strong> {service.problem}</p>
+        <p><strong>Solución:</strong> {service.solution}</p>
+        <p><strong>Resultado:</strong> {service.outcome}</p>
+      </article>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,30 @@
+---
+import Button from '../ui/Button.astro';
+import { siteConfig } from '../../content/site';
+
+const { hero, contact } = siteConfig;
+const whatsappHref = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(contact.whatsappPresetMessage)}`;
+---
+
+<section id="home" class="hero section">
+  <div class="hero-grid">
+    <div class="hero-copy reveal">
+      <p class="eyebrow">Estudio de producto digital</p>
+      <h1>{hero.headline}</h1>
+      <p>{hero.subheadline}</p>
+      <div class="cta-group">
+        <Button href="#contacto" label={hero.primaryCta} />
+        <Button href={whatsappHref} label={hero.secondaryCta} variant="ghost" newTab />
+      </div>
+    </div>
+    <div class="hero-card reveal delay-1" aria-hidden="true">
+      <p class="card-tag">Pipeline de crecimiento</p>
+      <ul>
+        <li><span>Landing de conversión</span><strong>Activo</strong></li>
+        <li><span>Automatización de leads</span><strong>Listo</strong></li>
+        <li><span>Evolución a web app</span><strong>Escalable</strong></li>
+      </ul>
+      <p class="card-footnote">Arquitectura preparada para escalar por fases.</p>
+    </div>
+  </div>
+</section>

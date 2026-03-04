@@ -1,0 +1,26 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import { siteConfig } from '../../content/site';
+
+const { process } = siteConfig;
+---
+
+<section id="proceso" class="section">
+  <SectionHeader
+    eyebrow="Proceso"
+    title="Cómo llevamos tu idea a producción"
+    description="Un proceso claro para reducir riesgo, acelerar decisiones y construir con foco en resultados."
+  />
+
+  <ol class="timeline">
+    {process.map((item, index) => (
+      <li class={`timeline-item reveal delay-${index % 3}`}>
+        <span class="step">{item.step}</span>
+        <div>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>

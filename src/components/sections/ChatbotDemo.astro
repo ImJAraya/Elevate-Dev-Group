@@ -1,0 +1,62 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import { siteConfig } from '../../content/site';
+
+const { chatbot } = siteConfig;
+---
+
+<section class="section chatbot-wrap" aria-label="Demo chatbot">
+  <SectionHeader
+    eyebrow="Asistencia"
+    title={chatbot.title}
+    description={chatbot.subtitle}
+  />
+
+  <div class="chatbot-shell reveal">
+    <div class="chat-head">
+      <p>Asistente Elevate</p>
+      <span>En linea</span>
+    </div>
+    <div class="chat-body" data-chat-body>
+      <p class="bot">Haz clic en "Siguiente" para ver la demo.</p>
+    </div>
+    <div class="chat-controls">
+      <button type="button" class="btn btn-primary chat-btn" data-chat-next>Siguiente</button>
+      <button type="button" class="btn btn-ghost chat-btn" data-chat-reset>Reiniciar</button>
+    </div>
+    <p class="chat-note">{chatbot.note}</p>
+  </div>
+</section>
+
+<script define:vars={{ steps: chatbot.steps }}>
+  const body = document.querySelector('[data-chat-body]');
+  const next = document.querySelector('[data-chat-next]');
+  const reset = document.querySelector('[data-chat-reset]');
+  let index = 0;
+
+  const renderStep = () => {
+    if (!body) return;
+    if (index >= steps.length) {
+      body.insertAdjacentHTML(
+        'beforeend',
+        '<p class="bot">Esta fue la demo completa. Podemos implementar tu versión real.</p>'
+      );
+      return;
+    }
+
+    const step = steps[index];
+    body.insertAdjacentHTML('beforeend', `<p class="user">${step.user}</p>`);
+    body.insertAdjacentHTML('beforeend', `<p class="bot">${step.bot}</p>`);
+    body.scrollTop = body.scrollHeight;
+    index += 1;
+  };
+
+  const resetDemo = () => {
+    if (!body) return;
+    index = 0;
+    body.innerHTML = '<p class="bot">Haz clic en "Siguiente" para ver la demo.</p>';
+  };
+
+  next?.addEventListener('click', renderStep);
+  reset?.addEventListener('click', resetDemo);
+</script>
