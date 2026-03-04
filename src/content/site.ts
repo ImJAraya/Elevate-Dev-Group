@@ -171,7 +171,7 @@ export const siteConfig: SiteConfig = {
   contact: {
     email: 'contacto@elevatedevgroup.com',
     responseTime: 'Respondemos en menos de 24 horas hábiles.',
-    whatsappNumber: '5215551234567',
+    whatsappNumber: '+50686473460',
     whatsappPresetMessage: 'Hola, quiero una propuesta para mi proyecto digital.',
   },
 };
