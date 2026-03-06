@@ -54,8 +54,25 @@ p {
   color: var(--muted);
 }
 
+p,
+li,
+a,
+h1,
+h2,
+h3 {
+  overflow-wrap: anywhere;
+}
+
 .section {
   padding: 5.5rem 0;
+}
+
+#home,
+#servicios,
+#proceso,
+#portfolio,
+#contacto {
+  scroll-margin-top: 6.5rem;
 }
 
 .section-header {
@@ -143,11 +160,30 @@ button:focus-visible {
   gap: 1rem;
 }
 
+.topbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.topbar-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  gap: 1rem;
+}
+
 .topbar .brand {
   font-family: 'Sora', sans-serif;
   font-weight: 700;
   text-decoration: none;
   color: var(--text);
+}
+
+.topbar nav {
+  margin-left: auto;
 }
 
 .topbar ul {
@@ -156,15 +192,61 @@ button:focus-visible {
   gap: 1rem;
   margin: 0;
   padding: 0;
+  align-items: center;
 }
 
 .topbar nav a {
   text-decoration: none;
   color: var(--muted);
   font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.28rem;
+  white-space: nowrap;
+}
+
+.menu-toggle {
+  display: none;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--stroke);
+  background: rgba(16, 24, 38, 0.45);
+  cursor: pointer;
+  padding: 0.6rem;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--text);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.topbar[data-menu-open='true'] .menu-toggle span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.topbar[data-menu-open='true'] .menu-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.topbar[data-menu-open='true'] .menu-toggle span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 .mini-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
   text-decoration: none;
   border: 1px solid var(--stroke);
   color: var(--text);
@@ -499,12 +581,61 @@ textarea {
   .topbar {
     border-radius: 16px;
     width: min(1120px, 94vw);
-    align-items: start;
+    padding: 0.8rem;
+    align-items: stretch;
     flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .topbar-row {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .topbar-panel {
+    width: 100%;
+    display: grid;
+    gap: 0.8rem;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-6px);
+    overflow: hidden;
+    pointer-events: none;
+    transition: max-height 0.25s ease, opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .topbar[data-menu-open='true'] .topbar-panel {
+    max-height: 420px;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .topbar nav {
+    margin-left: 0;
+    width: 100%;
   }
 
   .topbar ul {
-    flex-wrap: wrap;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .topbar nav a {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border-radius: 10px;
+    white-space: normal;
+  }
+
+  .topbar .mini-cta {
+    width: 100%;
   }
 
   .hero-grid,
@@ -522,15 +653,74 @@ textarea {
 
 @media (max-width: 640px) {
   .section {
-    padding: 4.3rem 0;
+    padding: clamp(3.2rem, 9vw, 4.3rem) 0;
   }
 
-  .topbar nav {
-    width: 100%;
+  #home,
+  #servicios,
+  #proceso,
+  #portfolio,
+  #contacto {
+    scroll-margin-top: 6rem;
   }
 
-  .topbar ul {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .topbar {
+    margin-top: 0.72rem;
+  }
+
+  .hero {
+    padding-top: 2.2rem;
+  }
+
+  .timeline-item {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .chat-controls {
+    flex-wrap: wrap;
+  }
+
+  .chat-controls .chat-btn {
+    flex: 1 1 170px;
+  }
+
+  .site-footer {
+    padding: 1.1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  main,
+  .topbar,
+  .site-footer {
+    width: min(1120px, 96vw);
+  }
+
+  .topbar {
+    border-radius: 14px;
+    padding: 0.68rem;
+  }
+
+  .topbar .brand {
+    font-size: 0.96rem;
+  }
+
+  .topbar nav a {
+    font-size: 0.88rem;
+  }
+
+  .mini-cta {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .btn {
+    padding: 0.72rem 1rem;
+  }
+
+  .hero-card li {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

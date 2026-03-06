@@ -35,16 +35,31 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <div class="bg-orb bg-orb-a" aria-hidden="true"></div>
     <div class="bg-orb bg-orb-b" aria-hidden="true"></div>
 
-    <header class="topbar">
-      <a href="#home" class="brand">{siteConfig.brandName}</a>
-      <nav aria-label="Navegacion principal">
-        <ul>
-          {siteConfig.nav.map((item) => (
-            <li><a href={item.href}>{item.label}</a></li>
-          ))}
-        </ul>
-      </nav>
-      <a class="mini-cta" href="#contacto">Iniciar proyecto</a>
+    <header class="topbar" data-menu-open="false">
+      <div class="topbar-row">
+        <a href="#home" class="brand">{siteConfig.brandName}</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+          aria-controls="primary-nav"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="topbar-panel">
+        <nav id="primary-nav" aria-label="Navegacion principal">
+          <ul>
+            {siteConfig.nav.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+        <a class="mini-cta" href="#contacto">Iniciar proyecto</a>
+      </div>
     </header>
 
     <main>
@@ -72,5 +87,44 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
         </ul>
       </div>
     </footer>
+
+    <script>
+      const topbar = document.querySelector('.topbar');
+      const menuToggle = document.querySelector('.menu-toggle');
+      const navLinks = document.querySelectorAll('#primary-nav a');
+      const desktopQuery = window.matchMedia('(min-width: 981px)');
+
+      const closeMenu = () => {
+        if (!topbar || !menuToggle) return;
+        topbar.setAttribute('data-menu-open', 'false');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Abrir menú');
+      };
+
+      const toggleMenu = () => {
+        if (!topbar || !menuToggle) return;
+        const isOpen = topbar.getAttribute('data-menu-open') === 'true';
+        const willOpen = !isOpen;
+        const nextState = willOpen.toString();
+        topbar.setAttribute('data-menu-open', nextState);
+        menuToggle.setAttribute('aria-expanded', nextState);
+        menuToggle.setAttribute('aria-label', willOpen ? 'Cerrar menú' : 'Abrir menú');
+      };
+
+      const handleDesktopChange = (event) => {
+        if (event.matches) closeMenu();
+      };
+
+      menuToggle?.addEventListener('click', toggleMenu);
+      navLinks.forEach((link) => link.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeMenu();
+      });
+      if (desktopQuery.addEventListener) {
+        desktopQuery.addEventListener('change', handleDesktopChange);
+      } else {
+        desktopQuery.addListener(handleDesktopChange);
+      }
+    </script>
   </body>
 </html>
